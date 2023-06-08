@@ -1,17 +1,13 @@
-# Tuodaan FastAPI luokka fastapi paketista
 from fastapi import FastAPI
 
-# Luodaan uusi fastapi instanssi app nimiseen muuttujaan.
-# Muuttujan nimellä on merkitystä sillä uvicorn tarvitsee tämän 
-# nimen palvelinta käynnistäessä, tässä tapauksessa se on main:app
 app = FastAPI()
 
-# Käytetään fastapi:n @app.get dekoraattoria todos endpointin luomiseen.
-# Decorator funktio suoritetaan aina ennen sen alapuolella olevaa funktiota
-# Decorator välittää sen alapuolelle määritetylle funktiolle argumentteja. 
-# Tässä tapauksessa turvaudutaan FastAPI:n dokumentaatioon jotta tiedetään mitä
-# argumentteja dekoraattorin alapuolella oleva 
-# funktio ottaa vastaan missäkin tapauksessa.
 @app.get('/todos')
-def getTodos():
+def get_todos(done: bool | None = None):
+    if done != None:
+        return f"Tässä palautetaan myöhemmin todot joiden done status on: {done}"
     return "Tässä palautetaan myöhemmin todo-lista"
+
+@app.get('/todos/{id}')
+def get_todo_by_id(id:int):
+    return f"Tässä palautetaan myöhemmin yksittäinen todo item id:llä {id}"
